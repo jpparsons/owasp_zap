@@ -26,7 +26,7 @@ module OwaspZap
             @base = params[:base] || "http://127.0.0.1:8080"
             @target = params[:target]
             @zap_bin = params [:zap] || "#{ENV['HOME']}/ZAP/zap.sh"
-            @api_key = ENV['API_KEY'] || random_token 
+            @api_key = ENV['API_KEY'] || random_token
             @output = params[:output] || $stdout #default we log everything to the stdout
         end
 
@@ -69,7 +69,7 @@ module OwaspZap
         def alerts
             OwaspZap::Alert.new(:base=>@base,:target=>@target, :api_key=>@api_key)
         end
-        
+
         def scanner
             OwaspZap::Scanner.new(:base=>@base, :api_key=>@api_key)
         end
@@ -84,14 +84,15 @@ module OwaspZap
         end
 
         def auth
-            OwaspZap::Auth.new(base: @base, target: @target, api_key: @api_key) 
+            OwaspZap::Auth.new(base: @base, target: @target, api_key: @api_key)
         end
 
         # TODO
         # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
-            
-            cmd_line = "#{@zap_bin} -config api.key=#{@api_key}" 
+
+            #cmd_line = "#{@zap_bin} -config api.key=#{@api_key}"
+            cmd_line = "#{@zap_bin} -config api.disablekey=true"
 
             cmd_line += " -daemon" if params[:daemon]
 
@@ -100,7 +101,7 @@ module OwaspZap
                # to this file (that means, ZAP stdout)
                unless @output == $stdout
                 STDOUT.reopen(File.open(@output, 'w+'))
-                STDOUT.sync = true 
+                STDOUT.sync = true
                end
                exec cmd_line
             end
@@ -113,11 +114,11 @@ module OwaspZap
         end
 
         #xml report
-        #maybe it should be refactored to alert. 
+        #maybe it should be refactored to alert.
         def xml_report
             RestClient::get "#{@base}/OTHER/core/other/xmlreport/?apikey=#{@api_key}"
         end
-        
+
         def html_report
             RestClient::get "#{@base}/OTHER/core/other/htmlreport/?apikey=#{@api_key}"
         end
