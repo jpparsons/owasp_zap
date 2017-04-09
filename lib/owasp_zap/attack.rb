@@ -9,6 +9,7 @@ module OwaspZap
         end
 
         def start
+            puts "START ASCAN = " + "#{@base}/JSON/ascan/action/scan/?apikey=#{@api_key}"
             set_query "#{@base}/JSON/ascan/action/scan/?apikey=#{@api_key}"
         end
 

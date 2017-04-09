@@ -76,6 +76,7 @@ module OwaspZap
 
         #attack
         def ascan
+            puts "ASCAN API_KEY = " + @api_key
             OwaspZap::Attack.new(:base=>@base,:target=>@target, :api_key=>@api_key)
         end
 
@@ -96,6 +97,7 @@ module OwaspZap
             cmd_line = "#{@zap_bin} -config api.key=#{@api_key}"
 
             cmd_line += " -daemon" if params[:daemon]
+            puts "CMDLINE = " + cmd_line
 
             fork do
                # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
