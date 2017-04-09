@@ -18,7 +18,7 @@ module OwaspZap
     class ZapException < Exception;end
 
     class Zap
-       attr_accessor :target,:base, :zap_bin
+       attr_accessor :target, :base, :zap_bin, :api_key
 
        def initialize(params = {})
             #TODO
@@ -90,7 +90,7 @@ module OwaspZap
         # TODO
         # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
-          
+
             return if running?
 
             cmd_line = "#{@zap_bin} -config api.key=#{@api_key}"
