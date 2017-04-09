@@ -90,6 +90,8 @@ module OwaspZap
         # TODO
         # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
+          
+            return if running?
 
             cmd_line = "#{@zap_bin} -config api.key=#{@api_key}"
 
