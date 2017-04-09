@@ -9,7 +9,6 @@ module OwaspZap
         end
 
         def start
-            puts "START ASCAN = " + "#{@base}/JSON/ascan/action/scan/?apikey=#{@api_key}"
             set_query "#{@base}/JSON/ascan/action/scan/?apikey=#{@api_key}"
         end
 
@@ -38,6 +37,7 @@ module OwaspZap
             default_params = {:zapapiformat=>"JSON",:url=>@target, :apikey=>@api_key}
             url = Addressable::URI.parse addr
             url.query_values = default_params.merge params
+            puts "ATTACK + " + url.normalize.to_str
             RestClient::get url.normalize.to_str
         end
 
